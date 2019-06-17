@@ -13,4 +13,9 @@ router.get('/:pathURL', async (req, res, next) => {
   res.send(postContent);
 });
 
+router.get('/page/:pageNumber', async (req, res, next) => {
+  let postContent = await genk.getPostURL('http://genk.vn/home/page-' + req.params.pageNumber + '.chn');
+  res.send(postContent);
+});
+
 module.exports = router;
