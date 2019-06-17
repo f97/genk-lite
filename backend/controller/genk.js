@@ -4,13 +4,13 @@ const common = require('./common');
 
 // get all URL post from url of genk
 const getPostURL = async (url) => {
-    let source = await common.getSource(url);
-    $ = cheerio.load(source);
-    let links = $('.knsw-list .knswli-title > a');
-    let linksInfo = [];
+    let sourceHomepage = await common.getSource(url);
+    $ = cheerio.load(sourceHomepage);
+    let links = $('.knsw-list .knswli-title > a'); //Object cheerio of all a tag link to post 
+    let linksInfo = []; //Array of link object result
     $(links).each(function(i, link){
         let newLink = {
-            href: 'http://genk.vn' + $(link).attr('href'),
+            href: $(link).attr('href'),
             text: $(link).text()
         }
         linksInfo = [...linksInfo, newLink]
@@ -20,14 +20,19 @@ const getPostURL = async (url) => {
 
 // get content post from url
 const getPostContent = async (url) => {
-    let source = await common.getSource(url);
-    $ = cheerio.load(source);
-    let pContent = $('.knc-content p')
+    let sourcePost = await common.getSource(url);
+    $ = cheerio.load(sourcePost);
+    let pContent = $('.knc-content p');  //Object cheerio of all p tag of post 
+    let title = $('.kbwc-title').html(); //Title of post
     let content = '';
     $(pContent).each(function(i, p){
         content = content + '<p>' + $(p).html() + '</p>';
-    });    
-    return content;
+    });   
+
+    return {
+        title: title,
+        content: content,
+    };
 }
 
 module.exports = {
