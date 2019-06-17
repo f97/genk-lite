@@ -18,6 +18,19 @@ const getPostURL = async (url) => {
     return linksInfo;
 }
 
+// get content post from url
+const getPostContent = async (url) => {
+    let source = await common.getSource(url);
+    $ = cheerio.load(source);
+    let pContent = $('.knc-content p')
+    let content = '';
+    $(pContent).each(function(i, p){
+        content = content + '<p>' + $(p).html() + '</p>';
+    });    
+    return content;
+}
+
 module.exports = {
-    getPostURL: getPostURL
+    getPostURL: getPostURL,
+    getPostContent: getPostContent
 }
