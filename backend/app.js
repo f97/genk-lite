@@ -6,6 +6,8 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var genkRouter = require('./routes/genk');
+var cors = require('cors')
+
 // var newRouter = require('./routes/new');
 
 var app = express();
@@ -14,6 +16,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+app.use(cors()) // Use this after the variable declaration
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
